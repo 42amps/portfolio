@@ -43,11 +43,11 @@ const contactLinks = [
 ];
 
 const rotatingRoles = [
-  "Applied AI Engineer",
-  "Product Engineer",
-  "RAG Systems Builder",
-  "Agent Workflow Engineer",
-  "Backend Correctness Builder",
+  "AI Engineer",
+  "Product Management",
+  "Backend Systems",
+  "RAG & Document AI",
+  "Applied AI Builder",
 ];
 
 const proofSignals = [
@@ -63,7 +63,7 @@ const projects: Project[] = [
     repo: "https://github.com/42amps/stateframe",
     accent: "Agent Infrastructure",
     description:
-      "File-first task-state ledger for long-horizon agent workflows, recovery, retries, and inspectable handoff packets.",
+      "File-first task-state ledger for long-running AI workflows, recovery, retries, and inspectable handoff packets.",
     tags: ["Agents", "State", "CLI", "Schema"],
     status: "Main proof",
   },
@@ -117,7 +117,7 @@ const projects: Project[] = [
 const contributionTargets = [
   ["ritshover/ritshover", "Docs / setup improvements", "Scout"],
   ["fastapi/fastapi", "Examples and reproduction notes", "Watch"],
-  ["langchain-ai/langgraph", "Agent workflow docs", "Scout"],
+  ["langchain-ai/langgraph", "Stateful AI docs", "Scout"],
   ["run-llama/llama_index", "RAG examples and docs", "Watch"],
 ];
 
@@ -175,7 +175,7 @@ function App() {
   useEffect(() => {
     const id = window.setInterval(() => {
       setRoleIndex((index) => (index + 1) % rotatingRoles.length);
-    }, 1800);
+    }, 2400);
     return () => window.clearInterval(id);
   }, []);
 

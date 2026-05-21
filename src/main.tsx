@@ -1,4 +1,4 @@
-import { StrictMode, useMemo, useState } from "react";
+import { StrictMode, useEffect, useMemo, useState, type CSSProperties } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles.css";
 
@@ -9,6 +9,7 @@ type Project = {
   live?: string;
   accent: string;
   tags: string[];
+  status?: string;
 };
 
 type Writing = {
@@ -37,8 +38,23 @@ const stackGroups = [
 const contactLinks = [
   ["GitHub", "https://github.com/42amps", "GH"],
   ["LinkedIn", "https://www.linkedin.com/in/amankhanchandani/", "IN"],
-  ["Portfolio", "https://github.com/42amps/portfolio", "PF"],
+  ["Resume", "/Resume.pdf", "CV"],
   ["Email", "mailto:khanchandani.aman2605@gmail.com", "EM"],
+];
+
+const rotatingRoles = [
+  "Applied AI Engineer",
+  "Product Engineer",
+  "RAG Systems Builder",
+  "Agent Workflow Engineer",
+  "Backend Correctness Builder",
+];
+
+const proofSignals = [
+  ["Vision-RAG", "PDF pages as visual inputs; layout-heavy tables, diagrams, and mixed-script docs."],
+  ["Hybrid Retrieval", "FAISS vector search, Neo4j graph traversal, and probabilistic pre-filtering."],
+  ["Payment Correctness", "Idempotency, append-only ledgers, row locks, payout states, and refund flows."],
+  ["Agent State", "Current truth, change history, retries, failures, and next actions as inspectable files."],
 ];
 
 const projects: Project[] = [
@@ -49,6 +65,7 @@ const projects: Project[] = [
     description:
       "File-first task-state ledger for long-horizon agent workflows, recovery, retries, and inspectable handoff packets.",
     tags: ["Agents", "State", "CLI", "Schema"],
+    status: "Main proof",
   },
   {
     name: "PayRail",
@@ -58,14 +75,16 @@ const projects: Project[] = [
     description:
       "Payout engine demo with append-only ledger accounting, idempotency keys, row-level locking, and explicit payout states.",
     tags: ["Django", "Postgres", "Ledger", "Locks"],
+    status: "Demo",
   },
   {
     name: "BidMyTime",
     live: "https://bid-my-time.vercel.app",
     accent: "Live Product",
     description:
-      "High-value scheduling product for presenting availability, booking time slots, and turning personal time into a product surface.",
-    tags: ["Scheduling", "Product", "React", "Live"],
+      "Deposit-first booking platform where professionals create paid booking links, collect commitment fees, and reduce no-show risk for high-value calls.",
+    tags: ["Next.js", "Supabase", "Razorpay", "RLS"],
+    status: "Live",
   },
   {
     name: "AI Systems Notes",
@@ -74,22 +93,24 @@ const projects: Project[] = [
     description:
       "Notes on agent state, RAG evaluation, payout correctness, Vision-RAG, graph retrieval, and contribution planning.",
     tags: ["RAG", "Agents", "Docs", "Systems"],
+    status: "Writing",
+  },
+  {
+    name: "CodeGraph",
+    accent: "In Progress",
+    description:
+      "Repository graph concept combining AST structure, data-flow relationships, and semantic code embeddings for Python/JavaScript codebase navigation.",
+    tags: ["Python", "PyTorch", "AST", "GNN"],
+    status: "CV-backed",
   },
   {
     name: "Portfolio",
     repo: "https://github.com/42amps/portfolio",
     accent: "Public Funnel",
     description:
-      "Recruiter-facing surface connecting projects, writing, technical interests, and an external contribution trail.",
+      "Recruiter-facing surface connecting projects, writing, technical interests, resume claims, and external contribution trail.",
     tags: ["React", "TypeScript", "Design", "Proof"],
-  },
-  {
-    name: "VRAG Lab",
-    repo: "https://github.com/42amps/VRAG",
-    accent: "Exploratory Lab",
-    description:
-      "Exploratory Vision-RAG document retrieval lab for OCR-free page retrieval and multimodal PDF understanding.",
-    tags: ["Vision-RAG", "PDF", "Retrieval", "OCR"],
+    status: "Public",
   },
 ];
 
@@ -147,6 +168,17 @@ const writings: Writing[] = [
 
 function App() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [spotlight, setSpotlight] = useState("Stateframe");
+  const [pointer, setPointer] = useState({ x: 50, y: 18 });
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setRoleIndex((index) => (index + 1) % rotatingRoles.length);
+    }, 1800);
+    return () => window.clearInterval(id);
+  }, []);
+
   const time = useMemo(
     () =>
       new Intl.DateTimeFormat("en-IN", {
@@ -157,14 +189,31 @@ function App() {
       }).format(new Date()),
     [],
   );
+  const activeProject = projects.find((project) => project.name === spotlight) ?? projects[0];
 
   return (
-    <main className="site" data-theme={theme}>
+    <main
+      className="site"
+      data-theme={theme}
+      style={{ "--mx": `${pointer.x}%`, "--my": `${pointer.y}%` } as CSSProperties}
+      onPointerMove={(event) => {
+        const rect = event.currentTarget.getBoundingClientRect();
+        setPointer({
+          x: Math.round(((event.clientX - rect.left) / rect.width) * 100),
+          y: Math.round(((event.clientY - rect.top) / rect.height) * 100),
+        });
+      }}
+    >
       <div className="page">
         <header className="hero reveal">
-          <h1>
-            Hi, I&apos;m Aman <span>-</span>
-          </h1>
+          <div>
+            <h1>
+              Hi, I&apos;m Aman <span>-</span>
+            </h1>
+            <div className="role-ticker" aria-label="Rotating role focus">
+              <span>{rotatingRoles[roleIndex]}</span>
+            </div>
+          </div>
           <div className="hero-status">
             <span className="availability">
               <span aria-hidden="true" />
@@ -178,6 +227,9 @@ function App() {
             >
               {theme === "dark" ? "Light" : "Dark"}
             </button>
+            <a className="resume-chip" href="/Resume.pdf">
+              Resume
+            </a>
           </div>
         </header>
 
@@ -192,9 +244,14 @@ function App() {
                 <span>Python</span>, <span>Django</span>, <span>PostgreSQL</span>, and RAG - focused
                 on inspectable state, retrieval quality, backend correctness, and real product workflows.
               </p>
-              <a className="primary-button" href="mailto:khanchandani.aman2605@gmail.com">
-                Let&apos;s Connect
-              </a>
+              <div className="cta-row">
+                <a className="primary-button" href="mailto:khanchandani.aman2605@gmail.com">
+                  Let&apos;s Connect
+                </a>
+                <a className="secondary-button" href="/Resume.pdf">
+                  View CV
+                </a>
+              </div>
             </article>
 
             <div className="mini-grid">
@@ -237,6 +294,16 @@ function App() {
           </aside>
         </section>
 
+        <section className="signal-grid reveal delay-3" aria-label="Proof signals">
+          {proofSignals.map(([title, detail], index) => (
+            <article className="signal-card" key={title} style={{ "--signal": index } as CSSProperties}>
+              <span>{`0${index + 1}`}</span>
+              <strong>{title}</strong>
+              <p>{detail}</p>
+            </article>
+          ))}
+        </section>
+
         <section className="section reveal delay-4">
           <div className="section-title">
             <span aria-hidden="true">[]</span>
@@ -257,6 +324,14 @@ function App() {
               </ul>
             </div>
           </article>
+          <article className="research-card">
+            <span>Jan 2025 - Mar 2025</span>
+            <h3>Undergraduate Researcher, Cryptography - MIT Manipal</h3>
+            <p>
+              Implemented a hybrid IBE-HABE access-control prototype in Python using Charm for
+              decentralized EHR permissioning and explored distributed key generation to reduce key-escrow risk.
+            </p>
+          </article>
         </section>
 
         <section className="section reveal delay-5">
@@ -265,9 +340,24 @@ function App() {
             <h2>Featured Projects</h2>
           </div>
           <p className="section-copy">Strongest proof-of-work plus verified live product surfaces.</p>
+          <div className="project-orbit" aria-label="Project spotlight">
+            <div className="orbit-visual" aria-hidden="true">
+              <span>{activeProject.name.slice(0, 2)}</span>
+            </div>
+            <div>
+              <span>{activeProject.accent}</span>
+              <h3>{activeProject.name}</h3>
+              <p>{activeProject.description}</p>
+            </div>
+          </div>
           <div className="project-grid">
             {projects.map((project) => (
-              <article className="project-card" key={project.name}>
+              <article
+                className="project-card"
+                key={project.name}
+                onMouseEnter={() => setSpotlight(project.name)}
+                onFocus={() => setSpotlight(project.name)}
+              >
                 <div className="project-topline">
                   <span>{project.accent}</span>
                   <div>
@@ -275,6 +365,7 @@ function App() {
                     {project.repo ? <a href={project.repo}>Repo</a> : null}
                   </div>
                 </div>
+                <em>{project.status}</em>
                 <h3>{project.name}</h3>
                 <p>{project.description}</p>
                 <div className="tag-row">

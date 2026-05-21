@@ -1,24 +1,24 @@
-import { StrictMode } from "react";
+import { StrictMode, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles.css";
 
-const skills = [
+const stack = [
   "TypeScript",
   "React",
-  "Next.js",
   "Python",
   "Django",
   "PostgreSQL",
-  "Docker",
-  "Supabase",
   "RAG",
-  "Document AI",
   "LangGraph",
-  "Vector Search",
-  "System Design",
-  "CLI Tools",
+  "Document AI",
+  "Docker",
   "GitHub Actions",
-  "Codex",
+];
+
+const links = [
+  ["GitHub", "https://github.com/42amps"],
+  ["LinkedIn", "https://www.linkedin.com/in/amankhanchandani/"],
+  ["Email", "mailto:khanchandani.aman2605@gmail.com"],
 ];
 
 const projects = [
@@ -26,30 +26,23 @@ const projects = [
     name: "Stateframe",
     href: "https://github.com/42amps/stateframe",
     description:
-      "File-first task-state ledger for long-horizon agent workflows. Preserves current truth, change history, failures, retries, and next actions as inspectable state files.",
-    tags: ["Agent Workflows", "State Management", "CLI", "JSON Schema"],
+      "File-first state ledger for long-horizon agent workflows: current truth, change history, failures, retries, and handoff packets.",
+    tags: ["Agents", "State", "CLI", "JSON Schema"],
   },
   {
     name: "PayRail",
-    href: "https://github.com/42amps/playto-pay-engine",
+    href: "https://github.com/42amps/PayRail",
     demo: "https://playto-pay-engine.onrender.com",
     description:
-      "Real-time payout engine demo for banking-payment correctness: append-only ledger accounting, idempotency keys, row-level locking, payout states, and double-spend prevention.",
-    tags: ["Django", "PostgreSQL", "Ledger", "Concurrency", "React"],
+      "Payout engine demo focused on idempotency, append-only ledger accounting, row-level locking, payout states, and double-spend prevention.",
+    tags: ["Django", "PostgreSQL", "Ledger", "Concurrency"],
   },
   {
     name: "AI Systems Notes",
     href: "https://github.com/42amps/ai-systems-notes",
     description:
-      "Technical notes on agent state, RAG systems, payout correctness, document AI, retrieval evaluation, graph retrieval, and open-source contribution planning.",
-    tags: ["RAG", "Agents", "Document AI", "Evaluation", "Writing"],
-  },
-  {
-    name: "Portfolio",
-    href: "https://github.com/42amps/portfolio",
-    description:
-      "Recruiter-facing public surface that connects the strongest repos, writing, technical focus, and contribution trail.",
-    tags: ["React", "TypeScript", "Tailwind", "Portfolio"],
+      "Technical notes on agent state, RAG evaluation, payout correctness, Vision-RAG, graph retrieval, and contribution planning.",
+    tags: ["RAG", "Document AI", "Systems", "Writing"],
   },
 ];
 
@@ -58,121 +51,137 @@ const writings = [
   ["Payout System Correctness", "https://github.com/42amps/ai-systems-notes/blob/main/docs/payout-system-correctness.md"],
   ["Vision-RAG Notes", "https://github.com/42amps/ai-systems-notes/blob/main/docs/vision-rag-notes.md"],
   ["RAG Evaluation Notes", "https://github.com/42amps/ai-systems-notes/blob/main/docs/rag-evaluation-notes.md"],
-  [
-    "Knowledge Graphs for Retrieval",
-    "https://github.com/42amps/ai-systems-notes/blob/main/docs/knowledge-graphs-for-retrieval.md",
-  ],
-];
-
-const contributionTargets = [
-  "Docs improvements",
-  "Setup/repro fixes",
-  "Example cleanup",
-  "Small tests",
-  "Type fixes",
 ];
 
 function App() {
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const time = useMemo(
+    () =>
+      new Intl.DateTimeFormat("en-IN", {
+        timeZone: "Asia/Kolkata",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }).format(new Date()),
+    [],
+  );
+
   return (
-    <main className="page-shell">
-      <section className="intro-grid">
-        <div className="hero-card">
-          <div className="availability">Available for AI/Product Engineering internships</div>
-          <h1>Hi, I&apos;m Aman - Applied AI + Product Engineer.</h1>
+    <main className="site" data-theme={theme}>
+      <header className="hero">
+        <h1>
+          Hi, I&apos;m Aman - <span>Applied AI + Product Engineer.</span>
+        </h1>
+
+        <div className="status-row" aria-label="Availability and theme">
+          <span className="availability">
+            <span aria-hidden="true" />
+            Open to AI/Product Engineering internships
+          </span>
+          <button
+            className="theme-toggle"
+            type="button"
+            aria-label="Toggle color theme"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          >
+            {theme === "dark" ? "Light" : "Dark"}
+          </button>
+        </div>
+      </header>
+
+      <section className="about-card" aria-labelledby="about-heading">
+        <div className="avatar-card" aria-hidden="true">
+          <div className="avatar-glow" />
+          <strong>AK</strong>
+        </div>
+
+        <div className="about-copy">
+          <p className="eyebrow">About me.</p>
+          <h2 id="about-heading">I build inspectable AI and product systems for messy workflows.</h2>
           <p>
-            I build applied AI and product systems for messy information workflows: RAG, document
-            intelligence, agent workflow state, payout correctness, and full-stack product infrastructure.
+            I work across RAG, document intelligence, long-horizon agent state, payout correctness,
+            and full-stack product infrastructure. The throughline is simple: systems should expose
+            their state, evidence, recovery path, and failure modes.
           </p>
-          <nav className="link-row" aria-label="Primary links">
-            <a href="https://github.com/42amps">GitHub</a>
-            <a href="https://www.linkedin.com/in/amankhanchandani/">LinkedIn</a>
-            <a href="mailto:khanchandani.aman2605@gmail.com">Email</a>
-          </nav>
-        </div>
 
-        <aside className="profile-card" aria-label="Profile summary">
-          <div className="avatar-mark">AK</div>
-          <div>
-            <span className="label">India</span>
-            <strong>Asia/Kolkata</strong>
+          <div className="inline-stack" aria-label="Core stack">
+            {stack.slice(0, 7).map((item) => (
+              <span key={item}>{item}</span>
+            ))}
           </div>
-          <div>
-            <span className="label">Studying</span>
-            <strong>Cyber Physical Systems, MIT Manipal</strong>
-          </div>
-          <div>
-            <span className="label">Focus</span>
-            <strong>RAG, agents, document AI, backend correctness</strong>
-          </div>
-        </aside>
+
+          <a className="connect-button" href="mailto:khanchandani.aman2605@gmail.com">
+            Let&apos;s Connect
+          </a>
+        </div>
+      </section>
+
+      <section className="info-grid" aria-label="Profile details and links">
+        <article className="mini-card">
+          <span>India</span>
+          <strong>{time} (Asia/Kolkata)</strong>
+        </article>
+        <article className="mini-card">
+          <span>Studying</span>
+          <strong>Cyber Physical Systems - MIT Manipal</strong>
+        </article>
+        <article className="mini-card link-card">
+          {links.map(([label, href]) => (
+            <a href={href} key={href}>
+              {label}
+            </a>
+          ))}
+        </article>
       </section>
 
       <section className="section">
-        <div className="section-title">
-          <span>About me.</span>
-          <h2>Systems that survive handoff, retries, and inspection.</h2>
-        </div>
-        <p className="wide-copy">
-          I care about product systems where the hard part is not the demo, but the state, evidence,
-          recovery path, and correctness model behind it. My strongest current work is Stateframe,
-          PayRail, AI Systems Notes, and this portfolio.
-        </p>
-      </section>
-
-      <section className="section">
-        <div className="section-title">
+        <div className="section-heading">
           <span>Skills & Stack</span>
-          <h2>Tools I use to build.</h2>
+          <h2>Tools I use to ship the work.</h2>
         </div>
         <div className="skill-grid">
-          {skills.map((skill) => (
-            <span key={skill}>{skill}</span>
+          {stack.map((item) => (
+            <span key={item}>{item}</span>
           ))}
         </div>
       </section>
 
-      <section className="quote-strip">
-        <p>&quot;The best AI systems make their state, evidence, and failure modes legible.&quot;</p>
-        <span>- working principle</span>
-      </section>
-
       <section className="section">
-        <div className="section-title">
+        <div className="section-heading">
           <span>Experience</span>
           <h2>AI Engineer Intern</h2>
         </div>
-        <div className="experience-card">
+        <article className="experience-card">
           <div>
             <h3>Carnot Research Pvt Ltd @ IIT Delhi</h3>
             <p>May 2025 - Sep 2025</p>
           </div>
-          <ul>
-            <li>Worked on Vision-RAG and document retrieval pipelines for layout-heavy PDFs.</li>
-            <li>Built LangGraph-based knowledge graph extraction workflows.</li>
-            <li>Explored hybrid retrieval with vector search, graph traversal, and probabilistic filtering.</li>
-            <li>Authored technical deep-dives on OCR benchmarking, Vision Transformers, and RAG evaluation.</li>
-          </ul>
-        </div>
+          <p>
+            Worked on Vision-RAG and document retrieval pipelines for layout-heavy PDFs, built
+            LangGraph-based knowledge graph extraction workflows, and explored hybrid retrieval using
+            vector search, graph traversal, and probabilistic filtering.
+          </p>
+        </article>
       </section>
 
       <section className="section">
-        <div className="section-title">
+        <div className="section-heading">
           <span>Featured Projects</span>
           <h2>Strongest public proof-of-work.</h2>
         </div>
-        <div className="project-list">
+        <div className="project-grid">
           {projects.map((project) => (
-            <article className="project-row" key={project.name}>
-              <a className="project-main" href={project.href}>
+            <article className="project-card" key={project.name}>
+              <a href={project.href}>
                 <h3>{project.name}</h3>
                 <p>{project.description}</p>
-                <div className="tag-row">
-                  {project.tags.map((tag) => (
-                    <span key={tag}>{tag}</span>
-                  ))}
-                </div>
               </a>
-              <div className="project-actions">
+              <div className="tag-row">
+                {project.tags.map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </div>
+              <div className="project-links">
                 <a href={project.href}>Repo</a>
                 {project.demo ? <a href={project.demo}>Demo</a> : null}
               </div>
@@ -181,44 +190,32 @@ function App() {
         </div>
       </section>
 
-      <section className="section split">
-        <div>
-          <div className="section-title">
-            <span>Open Source Contributions</span>
-            <h2>Contribution trail in progress.</h2>
-          </div>
-          <p className="wide-copy">
-            I am building a 30-day external PR trail across AI, devtools, and documentation-heavy projects.
-            I am prioritizing small PRs that improve reproducibility, examples, tests, and docs.
+      <section className="section two-col">
+        <div className="section-heading">
+          <span>Open Source</span>
+          <h2>Contribution trail in progress.</h2>
+          <p>
+            I am building a 30-day external PR trail across AI, devtools, and documentation-heavy
+            projects with small, reviewable fixes.
           </p>
         </div>
-        <div className="target-card">
-          {contributionTargets.map((target) => (
-            <span key={target}>{target}</span>
-          ))}
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="section-title">
-          <span>Latest Writings</span>
-          <h2>Technical notes.</h2>
-        </div>
         <div className="writing-list">
-          {writings.map(([title, href]) => (
+          {writings.map(([label, href]) => (
             <a href={href} key={href}>
-              {title}
+              {label}
             </a>
           ))}
         </div>
       </section>
 
       <footer>
-        <span>© 2026 Aman R Khanchandani</span>
-        <nav className="link-row" aria-label="Footer links">
-          <a href="https://github.com/42amps">GitHub</a>
-          <a href="https://www.linkedin.com/in/amankhanchandani/">LinkedIn</a>
-          <a href="mailto:khanchandani.aman2605@gmail.com">Email</a>
+        <span>2026 - Aman R Khanchandani</span>
+        <nav aria-label="Footer links">
+          {links.map(([label, href]) => (
+            <a href={href} key={href}>
+              {label}
+            </a>
+          ))}
         </nav>
       </footer>
     </main>

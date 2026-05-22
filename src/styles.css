@@ -818,8 +818,29 @@ footer nav {
 }
 
 .project-card {
-  min-height: 178px;
+  isolation: isolate;
+  min-height: 248px;
   padding: 18px;
+}
+
+.project-card-glow {
+  position: absolute;
+  inset: auto -18% -32% -18%;
+  z-index: 0;
+  height: 118px;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(96, 165, 250, 0.2), transparent 54%),
+    radial-gradient(circle at 78% 28%, rgba(34, 197, 94, 0.13), transparent 52%);
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 260ms ease,
+    transform 260ms ease;
+}
+
+.project-card:hover .project-card-glow {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .project-card::before,
@@ -839,7 +860,7 @@ footer nav {
 
 .project-topline {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -854,20 +875,58 @@ footer nav {
   text-transform: uppercase;
 }
 
-.project-topline div {
+.project-actions {
   display: flex;
   gap: 7px;
 }
 
-.project-topline a {
+.project-actions a {
+  display: grid;
+  width: 29px;
+  height: 29px;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel-soft);
   color: var(--muted);
-  font-size: 0.72rem;
-  font-weight: 900;
-  transition: color 180ms ease;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
 }
 
-.project-topline a:hover {
+.project-actions a:hover {
+  border-color: var(--border-strong);
+  background: var(--pill-hover);
   color: var(--text);
+  transform: translateY(-2px);
+}
+
+.project-mark {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-top: 20px;
+  background:
+    linear-gradient(135deg, rgba(96, 165, 250, 0.18), transparent),
+    var(--panel-soft);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 950;
+  transition:
+    border-color 220ms ease,
+    transform 220ms ease;
+}
+
+.project-card:hover .project-mark {
+  border-color: var(--border-strong);
+  transform: rotate(-2deg) scale(1.04);
 }
 
 .project-card h3,
@@ -892,6 +951,45 @@ footer nav {
   font-size: 0.66rem;
   font-style: normal;
   font-weight: 900;
+}
+
+.project-proof {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 6px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-top: 14px;
+  background: rgba(255, 255, 255, 0.035);
+  padding: 10px 11px;
+  opacity: 0.78;
+  transform: translateY(2px);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease,
+    border-color 220ms ease;
+}
+
+.project-card:hover .project-proof {
+  border-color: var(--border-strong);
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-proof span {
+  color: var(--muted);
+  font-size: 0.58rem;
+  font-weight: 950;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.project-proof strong {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 750;
+  line-height: 1.45;
 }
 
 .project-card:hover h3,

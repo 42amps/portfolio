@@ -20,6 +20,18 @@ type Writing = {
   visual: string;
 };
 
+type ContributionGroup = {
+  repo: string;
+  owner: string;
+  status: string;
+  items: {
+    title: string;
+    href: string;
+    type: string;
+    state: string;
+  }[];
+};
+
 const stackGroups = [
   {
     label: "AI & Systems",
@@ -110,11 +122,46 @@ const projects: Project[] = [
   },
 ];
 
-const contributionTargets = [
-  ["ritshover/ritshover", "Docs / setup improvements", "Scout"],
-  ["fastapi/fastapi", "Examples and reproduction notes", "Watch"],
-  ["langchain-ai/langgraph", "Stateful AI docs", "Scout"],
-  ["run-llama/llama_index", "RAG examples and docs", "Watch"],
+const contributionGroups: ContributionGroup[] = [
+  {
+    repo: "Aristocles/klebb",
+    owner: "Aristocles",
+    status: "1 PR open",
+    items: [
+      {
+        title: "docs: fix RECIPES count in README",
+        href: "https://github.com/Aristocles/klebb/pull/269",
+        type: "Docs correctness",
+        state: "Open",
+      },
+    ],
+  },
+  {
+    repo: "run-llama/llama_index",
+    owner: "run-llama",
+    status: "watching",
+    items: [
+      {
+        title: "RAG examples and documentation candidates",
+        href: "https://github.com/run-llama/llama_index/issues",
+        type: "Scouting",
+        state: "Watch",
+      },
+    ],
+  },
+  {
+    repo: "langchain-ai/langgraph",
+    owner: "langchain-ai",
+    status: "watching",
+    items: [
+      {
+        title: "Stateful AI docs and reproducibility issues",
+        href: "https://github.com/langchain-ai/langgraph/issues",
+        type: "Scouting",
+        state: "Watch",
+      },
+    ],
+  },
 ];
 
 const writings: Writing[] = [
@@ -166,6 +213,7 @@ function App() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [roleIndex, setRoleIndex] = useState(0);
   const [spotlight, setSpotlight] = useState("Stateframe");
+  const [openContributionRepo, setOpenContributionRepo] = useState(contributionGroups[0].repo);
   const [pointer, setPointer] = useState({ x: 50, y: 18 });
 
   useEffect(() => {
@@ -398,13 +446,35 @@ function App() {
           </div>
           <p className="section-copy">Building the contribution trail deliberately, with small inspectable PRs.</p>
           <div className="contribution-list">
-            {contributionTargets.map(([repo, focus, status]) => (
-              <a href={`https://github.com/${repo}`} key={repo}>
-                <strong>{repo}</strong>
-                <span>{focus}</span>
-                <em>{status}</em>
-              </a>
-            ))}
+            {contributionGroups.map((group) => {
+              const isOpen = openContributionRepo === group.repo;
+
+              return (
+                <article className="contribution-group" key={group.repo}>
+                  <button
+                    type="button"
+                    aria-expanded={isOpen}
+                    onClick={() => setOpenContributionRepo(isOpen ? "" : group.repo)}
+                  >
+                    <img src={`https://github.com/${group.owner}.png`} alt="" />
+                    <strong>{group.repo}</strong>
+                    <span>{group.items.length} PR</span>
+                    <em>{group.status}</em>
+                  </button>
+                  {isOpen ? (
+                    <div className="contribution-detail">
+                      {group.items.map((item) => (
+                        <a href={item.href} key={item.href}>
+                          <span>{item.type}</span>
+                          <strong>{item.title}</strong>
+                          <em>{item.state}</em>
+                        </a>
+                      ))}
+                    </div>
+                  ) : null}
+                </article>
+              );
+            })}
           </div>
         </section>
 

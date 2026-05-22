@@ -55,11 +55,11 @@ function App() {
         <header className="hero reveal">
           <div>
             <h1>
-              Hi, I&apos;m Aman <span>-</span>
+              Hi, I&apos;m Aman <span className="title-dash">-</span>{" "}
+              <span className="role-ticker" aria-label="Rotating role focus">
+                <span>{rotatingRoles[roleIndex]}</span>
+              </span>
             </h1>
-            <div className="role-ticker" aria-label="Rotating role focus">
-              <span>{rotatingRoles[roleIndex]}</span>
-            </div>
           </div>
           <div className="hero-status">
             <span className="availability">
@@ -220,7 +220,7 @@ function App() {
             <a href="https://github.com/42amps">github.com/42amps</a>
           </div>
           <div className="activity-card">
-            <img src="https://ghchart.rshah.org/22c55e/42amps" alt="GitHub contribution chart for 42amps" />
+            <img src="https://ghchart.rshah.org/38bdf8/42amps" alt="GitHub contribution chart for 42amps" />
           </div>
         </section>
 

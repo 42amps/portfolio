@@ -1,5 +1,7 @@
 node_modules
 dist
+.next
+portfolio-local-preview.png
 .env
 .env.local
 .DS_Store

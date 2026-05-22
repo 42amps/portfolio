@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+
+@layer base {
+  body {
+    @apply dark:bg-neutral-950 dark:text-neutral-200 transition-colors duration-300 bg-white text-neutral-900;
+  }
+}
+
+@layer utilities {
+  .mask-linear-gradient-bottom {
+    mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  }
+
+  @supports not (mask-image: linear-gradient(to bottom, black 85%, transparent 100%)) {
+    .mask-linear-gradient-bottom {
+      mask-image: none;
+      -webkit-mask-image: none;
+    }
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 1000px;
+  }
+
+  @supports not (content-visibility: auto) {
+    .cv-auto {
+      contain: layout paint;
+    }
+  }
+
+  .gpu {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000;
+    will-change: transform, opacity;
+  }
+}

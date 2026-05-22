@@ -1,0 +1,39 @@
+# Aman R Khanchandani - Portfolio
+
+This is the portfolio of Aman R Khanchandani, an Applied AI + Product Engineer Intern based in Pune, India.
+
+## Positioning
+
+Aman builds applied AI and product systems for messy information workflows: RAG, document intelligence, agent workflow state, payout correctness, backend reliability, and full-stack product infrastructure.
+
+## Featured Work
+
+- Stateframe: File-first task-state ledger for long-horizon agent workflows, recovery, retries, and inspectable state transitions.
+  - Source: https://github.com/42amps/stateframe
+- PayRail: Real-time payout engine demo with append-only ledger accounting, idempotency, row-level locking, payout state transitions, and double-spend prevention.
+  - Demo: https://playto-pay-engine.onrender.com
+  - Source: https://github.com/42amps/playto-pay-engine
+- BidMyTime: Live product surface for time-based bidding and product workflow exploration.
+  - Live: https://bidmytime.app/
+- AI Systems Notes: Technical notes on agent state, RAG systems, payout correctness, document AI, retrieval evaluation, and hybrid search.
+  - Source: https://github.com/42amps/ai-systems-notes
+
+## Experience
+
+- AI Engineer Intern at Carnot Research Pvt Ltd @ IIT Delhi (May 2025 - Sep 2025)
+  - Worked on Vision-RAG and document retrieval pipelines for layout-heavy PDFs.
+  - Built LangGraph-based knowledge graph extraction workflows.
+  - Explored hybrid retrieval using vector search, graph traversal, and probabilistic filtering.
+  - Authored technical deep-dives on OCR benchmarking, Vision Transformers, and RAG evaluation.
+
+## Skills
+
+- AI & Systems: RAG, Document AI, Vision-RAG, LangGraph, vector search, knowledge graphs, RAG evaluation, agent state, system design.
+- Infrastructure & Tools: Python, PostgreSQL, Docker, Git, Linux.
+- Building hands-on fluency in: TypeScript, Next.js, Django.
+
+## Links
+
+- Email: khanchandani.aman2605@gmail.com
+- GitHub: https://github.com/42amps
+- LinkedIn: https://www.linkedin.com/in/amankhanchandani/

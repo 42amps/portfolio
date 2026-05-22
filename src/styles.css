@@ -318,7 +318,6 @@ h1 span {
   line-height: 1.82;
 }
 
-.about-panel p span,
 .skill-pill,
 .tag-row span {
   display: inline-flex;
@@ -328,13 +327,6 @@ h1 span {
   background: var(--pill);
   color: var(--text);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-.about-panel p span {
-  margin: 0 2px;
-  padding: 2px 7px;
-  font-size: 0.8rem;
-  font-weight: 850;
 }
 
 .primary-button {
@@ -456,6 +448,18 @@ footer nav {
   color: var(--blue);
   font-size: 0.54rem;
   font-weight: 950;
+}
+
+.fluency-note {
+  margin: 24px 2px 4px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.65;
+}
+
+.fluency-note strong {
+  color: var(--text);
+  font-weight: 900;
 }
 
 .location-card,
@@ -908,7 +912,16 @@ footer nav {
 .tag-row {
   position: relative;
   z-index: 1;
+  align-items: center;
   margin-top: 16px;
+}
+
+.tag-row small {
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .tag-row span {

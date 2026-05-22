@@ -22,16 +22,12 @@ type Writing = {
 
 const stackGroups = [
   {
-    label: "Frontend",
-    items: ["React", "TypeScript", "Vite", "Tailwind", "shadcn/ui"],
+    label: "AI & Systems",
+    items: ["RAG", "Document AI", "LangGraph", "Vector Search", "Knowledge Graphs", "Agent State"],
   },
   {
-    label: "Backend",
-    items: ["Python", "Django", "PostgreSQL", "Docker", "GitHub Actions"],
-  },
-  {
-    label: "AI & Agents",
-    items: ["RAG", "Document AI", "LangGraph", "Vector Search", "Agent State"],
+    label: "Infrastructure & Tools",
+    items: ["Python", "PostgreSQL", "Docker", "Git", "Linux"],
   },
 ];
 
@@ -240,9 +236,9 @@ function App() {
               <img className="avatar" src="/github-avatar.png" alt="Aman R Khanchandani" />
               <h2>About me.</h2>
               <p>
-                I build applied AI and product systems using <span>TypeScript</span>, <span>React</span>,{" "}
-                <span>Python</span>, <span>Django</span>, <span>PostgreSQL</span>, and RAG - focused
-                on inspectable state, retrieval quality, backend correctness, and real product workflows.
+                I build applied AI and product systems for messy information workflows:
+                retrieval, document intelligence, agent state, payout correctness, and
+                inspectable backend behavior that holds up beyond a demo.
               </p>
               <div className="cta-row">
                 <a className="primary-button" href="mailto:khanchandani.aman2605@gmail.com">
@@ -291,6 +287,9 @@ function App() {
                 </div>
               </div>
             ))}
+            <p className="fluency-note">
+              <strong>Building hands-on fluency in:</strong> TypeScript, Next.js, Django
+            </p>
           </aside>
         </section>
 
@@ -369,6 +368,7 @@ function App() {
                 <h3>{project.name}</h3>
                 <p>{project.description}</p>
                 <div className="tag-row">
+                  <small>Stack used</small>
                   {project.tags.map((tag) => (
                     <span key={tag}>{tag}</span>
                   ))}
